@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="chrome://vanadium/skin/overlay.css" type="text/css"?>
 <!DOCTYPE overlay SYSTEM "chrome://vanadium/locale/overlay.dtd">
-<overlay id="vanadium-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script src="overlay.js"/>
-  <script src="ff-overlay.js"/>
+<overlay id="vanadium-overlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script src="overlay.js" type="application/javascript" />
 
   <stringbundleset id="stringbundleset">
-    <stringbundle id="vanadium-strings" src="chrome://vanadium/locale/overlay.properties"/>
+    <stringbundle id="vanadium-strings"
+                  src="chrome://vanadium/locale/overlay.properties"/>
   </stringbundleset>
 
-  <toolbarpalette id="BrowserToolbarPalette">
-  <toolbarbutton id="vanadium-toolbar-button" class="toolbarbutton-1 chromeclass-toolbar-additional"
-    label="&vanadiumToolbarButton.label;" tooltiptext="&vanadiumToolbarButton.tooltip;"
-    oncommand="vanadium.onToolbarButtonCommand()"/>
-  </toolbarpalette>
-
   <toolbox id="navigator-toolbox">
-    <toolbar class="chromeclass-toolbar" toolbarname="&vanadiumToolbar.name;" customizable="true" id="vanadium-toolbar">
+    <toolbar class="chromeclass-toolbar"
+             toolbarname="&vanadiumToolbar.name;"
+             customizable="true"
+             id="vanadium-toolbar">
       <label value="&vanadiumToolbar.label;"/>
+
+      <toolbarbutton id="vanadium-toolbar-button"
+                     class="toolbarbutton-1 chromeclass-toolbar-additional"
+                     label="&vanadiumToolbarButton.label;"
+                     tooltiptext="&vanadiumToolbarButton.tooltip;"
+                     oncommand="vanadium.onToolbarButtonCommand()"/>
     </toolbar>
   </toolbox>
-
 
 </overlay>

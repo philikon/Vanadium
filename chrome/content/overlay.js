@@ -1,21 +1,37 @@
-var vanadium = {
-  onLoad: function() {
-    // initialization code
-    this.initialized = true;
-    this.strings = document.getElementById("vanadium-strings");
-  },
+var Vanadium = {
 
-  onMenuItemCommand: function(e) {
-    var promptService = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-                                  .getService(Components.interfaces.nsIPromptService);
-    promptService.alert(window, this.strings.getString("helloMessageTitle"),
-                                this.strings.getString("helloMessage"));
-  },
+    init: function() {
+        var tabbrowser = document.getElementById('content');
+        tabbrowser.addEventListener('TabSelect', this, false);
 
-  onToolbarButtonCommand: function(e) {
-    // just reuse the function above.  you can change this, obviously!
-    vanadium.onMenuItemCommand(e);
-  }
+        this.toolbar = document.getElementById('vanadium-toolbar');
+        this.toolbar.setAttribute("collapsed", "true");
+    },
+
+    handleEvent: function(event) {
+        switch (event.type) {
+        case 'DOMContentLoaded':
+            this.init();
+            return;
+        case 'TabSelect':
+            Components.utils.reportError("tab select!");
+            this.onTabSelect(event);
+            return;
+        }
+    },
+
+    onTabSelect: function(event) {
+        var uri = event.originalTarget.linkedBrowser.currentURI;
+        var navbar = document.getElementById('nav-bar');
+        var vanadiumbar = document.getElementById('vanadium-toolbar');
+        if (uri.host == "mail.google.com") {
+            navbar.setAttribute("collapsed", "true");
+            this.toolbar.setAttribute("collapsed", "false");
+        } else {
+            navbar.setAttribute("collapsed", "false");
+            this.toolbar.setAttribute("collapsed", "true");
+        }
+    },
 };
 
-window.addEventListener("load", vanadium.onLoad, false);
+window.addEventListener("DOMContentLoaded", Vanadium, false);
