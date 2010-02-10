@@ -1,3 +1,5 @@
+<!ENTITY vanadium.button.home.label "Home">
+<!ENTITY vanadium.button.home.tooltip "Go to the main view">
 <!ENTITY vanadium.button.compose.label "Compose">
 <!ENTITY vanadium.button.compose.tooltip "Compose new message">
 <!ENTITY vanadium.button.reply.label "Reply">

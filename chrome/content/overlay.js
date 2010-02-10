@@ -47,12 +47,21 @@ var Vanadium = {
         var iframe = this.tabbrowser.contentDocument.getElementById('canvas_frame');
         var toclick;
         switch (buttontype) {
+        case "home":
+            /* First link of that class should be 'Inbox' */
+            toclick = iframe.contentDocument.getElementsByClassName('n0');
+            toclick = toclick[0];
+            break;
         case "compose":
             toclick = iframe.contentDocument.getElementById(':r3');
             break;
         case "reply":
             toclick = iframe.contentDocument.getElementsByClassName('hE');
             toclick = toclick[0];
+        }
+
+        if (toclick === undefined) {
+            return;
         }
 
         var event = iframe.contentDocument.createEvent('MouseEvents');

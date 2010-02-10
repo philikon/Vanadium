@@ -18,6 +18,11 @@
              customizable="true"
              id="vanadium-toolbar">
 
+      <toolbarbutton id="vanadium-button-home"
+                     label="&vanadium.button.home.label;"
+                     tooltiptext="&vanadium.button.home.tooltip;"
+                     oncommand="Vanadium.onButton('home')"/>
+
       <toolbarbutton id="vanadium-button-compose"
                      label="&vanadium.button.compose.label;"
                      tooltiptext="&vanadium.button.compose.tooltip;"
