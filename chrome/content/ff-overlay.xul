@@ -14,10 +14,11 @@
 
   <toolbox id="navigator-toolbox">
     <!-- Trick: empty toolbarname means it's not listed in 'View' menu -->
-    <toolbar class="chromeclass-toolbar"
+    <toolbar id="vanadium-toolbar"
+             class="toolbar-primary chromeclass-toolbar"
              toolbarname=""
-             customizable="true"
-             id="vanadium-toolbar">
+             mode="icons"
+             customizable="true">
 
       <toolbarbutton id="vanadium-button-home"
                      label="&vanadium.button.home.label;"

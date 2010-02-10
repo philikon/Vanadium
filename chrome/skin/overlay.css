@@ -1,22 +1,25 @@
-/* This is just an example.  You shouldn't do this. */
-#vanadium-hello
-{
-  color: red ! important;
+/* "Stolen" from pinstrime theme */
+#vanadium-button-home {
+  list-style-image: url("chrome://browser/skin/Toolbar.png");
+  -moz-image-region: rect(0px, 180px, 23px, 144px);
 }
-#vanadium-toolbar-button
-{
-  list-style-image: url("chrome://vanadium/skin/toolbar-button.png");
-  -moz-image-region: rect(0px 24px 24px 0px);
+#vanadium-button-home:hover:active {
+  -moz-image-region: rect(46px, 180px, 69px, 144px);
 }
-#vanadium-toolbar-button:hover
-{
-  -moz-image-region: rect(24px 24px 48px  0px);
+
+/* "Stolen" from Thunderbird */
+#vanadium-button-reply {
+  list-style-image: url("chrome://vanadium/skin/mail-toolbar.png");
+  -moz-image-region: rect(0px 128px 32px 96px);
 }
-[iconsize="small"] #vanadium-toolbar-button
-{
-  -moz-image-region: rect( 0px 40px 16px 24px);
+#vanadium-button-reply:hover:active {
+  -moz-image-region: rect(32px 128px 64px 96px);
 }
-[iconsize="small"] #vanadium-toolbar-button:hover
-{
-  -moz-image-region: rect(24px 40px 40px 24px);
+
+#vanadium-button-compose {
+  list-style-image: url("chrome://vanadium/skin/mail-toolbar.png");
+  -moz-image-region: rect(0px 64px 32px 32px);
+}
+#vanadium-button-compose:hover:active {
+  -moz-image-region: rect(32px 64px 64px 32px);
 }
