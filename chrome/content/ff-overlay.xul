@@ -12,17 +12,28 @@
   </stringbundleset>
 
   <toolbox id="navigator-toolbox">
+    <!-- Trick: empty toolbarname means it's not listed in 'View' menu -->
     <toolbar class="chromeclass-toolbar"
-             toolbarname="&vanadiumToolbar.name;"
+             toolbarname=""
              customizable="true"
              id="vanadium-toolbar">
-      <label value="&vanadiumToolbar.label;"/>
 
-      <toolbarbutton id="vanadium-toolbar-button"
-                     class="toolbarbutton-1 chromeclass-toolbar-additional"
-                     label="&vanadiumToolbarButton.label;"
-                     tooltiptext="&vanadiumToolbarButton.tooltip;"
-                     oncommand="vanadium.onToolbarButtonCommand()"/>
+      <toolbarbutton id="vanadium-button-compose"
+                     label="&vanadium.button.compose.label;"
+                     tooltiptext="&vanadium.button.compose.tooltip;"
+                     oncommand="Vanadium.onButton('compose')"/>
+
+      <toolbarbutton id="vanadium-button-reply"
+                     label="&vanadium.button.reply.label;"
+                     tooltiptext="&vanadium.button.reply.tooltip;"
+                     oncommand="Vanadium.onButton('reply')"/>
+
+      <toolbaritem id="vanadium-searchbar-container"
+                   title="&vanadium.searchbar.label;"
+                   persist="width">
+        <textbox id="vanadium-searchbar" />
+      </toolbaritem>
+
     </toolbar>
   </toolbox>
 
