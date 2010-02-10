@@ -1,7 +1,6 @@
 var Vanadium = {
 
     plugins: {},
-    activePlugin: null,
 
     init: function() {
         window.removeEventListener("DOMContentLoaded", this, false);
@@ -20,9 +19,17 @@ var Vanadium = {
         this.plugins[host] = factory;
     },
 
-    findPlugin: function(uri) {
+    getPlugin: function() {
+        var factory = this.plugins[this.tabbrowser.currentURI.host];
+        if (factory !== undefined) {
+            factory = new factory(this.tabbrowser.contentDocument);
+        }
         /* This might return undefined, and we're perfectly fine with that. */
-        return this.plugins[uri.host];
+        return factory;
+    },
+
+    havePlugin: function() {
+        return (this.tabbrowser.currentURI.host in this.plugins);
     },
 
     /* Event handlers */
@@ -42,15 +49,7 @@ var Vanadium = {
     },
     
     onTabSelect: function(event) {
-        var factory = this.findPlugin(this.tabbrowser.currentURI);
-        if (factory == undefined) {
-            this.showVanadium(false);
-            this.activePlugin = null;
-            return;
-        }
-
-        this.activePlugin = new factory(this.tabbrowser.contentDocument);
-        this.showVanadium(true);
+        this.showVanadium(this.havePlugin());
     },
 
     onTabOpen: function(event) {
@@ -69,18 +68,20 @@ var Vanadium = {
     },
 
     onSearch: function(query) {
-        if (!this.activePlugin) {
+        var plugin = this.getPlugin();
+        if (plugin === undefined) {
             return;
         }
-        this.activePlugin.search.value = query;
-        this.pressEnter(this.activePlugin.search);
+        plugin.search.value = query;
+        this.pressEnter(plugin.search);
     },
 
     onButton: function(buttontype) {
-        if (!this.activePlugin) {
+        var plugin = this.getPlugin();
+        if (plugin === undefined) {
             return;
         }
-        var toclick = this.activePlugin[buttontype];
+        var toclick = plugin[buttontype];
         if (toclick === undefined) {
             return;
         }
@@ -131,7 +132,5 @@ function GMailPlugin(document) {
     this.reply = iframe.contentDocument.getElementsByClassName('hE')[0];
     /* It's id="rd" for pre-Buzz GMail (e.g. Google Apps) */
     this.search = iframe.contentDocument.getElementById(':rc');
-
-    Components.utils.reportError(this.reply);
 }
 Vanadium.register(GMailPlugin, "mail.google.com");
