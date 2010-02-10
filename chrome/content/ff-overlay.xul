@@ -4,6 +4,7 @@
 <overlay id="vanadium-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
+  <script src="jquery.js" type="application/javascript" />
   <script src="overlay.js" type="application/javascript" />
 
   <stringbundleset id="stringbundleset">
