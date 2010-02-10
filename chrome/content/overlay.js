@@ -124,13 +124,27 @@ window.addEventListener("DOMContentLoaded", Vanadium, false);
 
 function GMailPlugin(document) {
     var iframe = document.getElementById('canvas_frame');
+    if (iframe === undefined) {
+        return;
+    }
 
-    /* First link of that class should be 'Inbox' */
-    this.home = iframe.contentDocument.getElementsByClassName('n0')[0];
+    document = jQuery(iframe.contentDocument);
+    this.home = document.find('a[title~=Inbox]')[0];
     /* It's id=":r3" for pre-Buzz GMail (e.g. Google Apps) */
-    this.compose = iframe.contentDocument.getElementById(':r2');
-    this.reply = iframe.contentDocument.getElementsByClassName('hE')[0];
+    this.compose = document.find('#\\:r2')[0];
+    /* There might be many "Reply" links in a conversation, let's just
+       take the last one. */
+    this.reply = document.find('.hE:last')[0];
     /* It's id="rd" for pre-Buzz GMail (e.g. Google Apps) */
-    this.search = iframe.contentDocument.getElementById(':rc');
+    this.search = document.find('#\\:rc')[0];
 }
 Vanadium.register(GMailPlugin, "mail.google.com");
+
+
+function TwitterPlugin(document) {
+    document = jQuery(document);
+    this.home = document.find('#home_tab > a')[0];
+    this.compose = document.find('#direct_messages_tab a')[0];
+    this.search = document.find('#sidebar_search_q')[0];
+}
+Vanadium.register(TwitterPlugin, "twitter.com");
