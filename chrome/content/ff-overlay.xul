@@ -36,7 +36,9 @@
       <toolbaritem id="vanadium-searchbar-container"
                    title="&vanadium.searchbar.label;"
                    persist="width">
-        <textbox id="vanadium-searchbar" />
+        <textbox id="vanadium-searchbar"
+                 searchbutton="true"
+                 onchange="Vanadium.onSearch(this.value)" />
       </toolbaritem>
 
     </toolbar>

@@ -39,6 +39,19 @@ var Vanadium = {
         document.persist(navbar.id, 'collapsed');
     },
 
+    onSearch: function(query) {
+        if (!this.isAppTab(this.tabbrowser.currentURI)) {
+            return;
+        }
+        Components.utils.reportError(query);
+
+        var iframe = this.tabbrowser.contentDocument.getElementById('canvas_frame');
+        var input = iframe.contentDocument.getElementById(':rd');
+        Components.utils.reportError(input);
+        input.value = query;
+        this.pressEnter(input);
+    },
+
     onButton: function(buttontype) {
         if (!this.isAppTab(this.tabbrowser.currentURI)) {
             return;
@@ -64,19 +77,38 @@ var Vanadium = {
             return;
         }
 
-        var event = iframe.contentDocument.createEvent('MouseEvents');
+        this.clickOn(toclick);
+    },
+
+    /* Simulate a simple click on an element */
+    clickOn: function(element) {
+        var event = element.ownerDocument.createEvent('MouseEvent');
         event.initMouseEvent(
             'click',
             true,                        // canBubble
             true,                        // cancelable
-            iframe.contentDocument.defaultView,        // view (e.g. window)
+            element.ownerDocument.defaultView,        // view (e.g. window)
             1,                           // click count
             0, 0, 0, 0,                  // coordinates
             false, false, false, false,  // key modifiers
             0,                           // button
             null);                       // target
-        toclick.dispatchEvent(event);
+        element.dispatchEvent(event);
     },
+
+    /* Simulate pressing the return key on an element */
+    pressEnter: function(element) {
+        var event = element.ownerDocument.createEvent('KeyboardEvent');
+        event.initKeyEvent(
+            'keypress',
+            true,                        // canBubble
+            true,                        // cancelable
+            element.ownerDocument.defaultView,        // view (e.g. window)
+            false, false, false, false,  // key modifiers
+            KeyEvent.DOM_VK_RETURN,      // keycode
+            0);                          // charCode
+        element.dispatchEvent(event);
+    }
 
 };
 
