@@ -5,6 +5,7 @@ var Vanadium = {
 
         this.tabbrowser = document.getElementById('content');
         this.tabbrowser.addEventListener('TabSelect', this, false);
+        this.tabbrowser.addEventListener('TabOpen', this, false);
 
         this.toolbar = document.getElementById('vanadium-toolbar');
         this.toolbar.setAttribute("collapsed", "true");
@@ -18,6 +19,9 @@ var Vanadium = {
         case 'TabSelect':
             this.onTabSelect(event);
             return;
+        case 'TabOpen':
+            this.onTabOpen(event);
+            return;
         }
     },
 
@@ -27,15 +31,23 @@ var Vanadium = {
 
     onTabSelect: function(event) {
         var uri = event.originalTarget.linkedBrowser.currentURI;
-        var navbar = document.getElementById('nav-bar');
+        //TODO: only need to do this if we're switching from non-app to app tab
         if (this.isAppTab(uri)) {
-            //TODO: only need to do this if we're switching from non-app to app tab
-            navbar.setAttribute("collapsed", "true");
-            this.toolbar.setAttribute("collapsed", "false");
+            this.showVanadium(true);
         } else {
-            navbar.setAttribute("collapsed", "false");
-            this.toolbar.setAttribute("collapsed", "true");
+            this.showVanadium(false);
         }
+    },
+
+    onTabOpen: function(event) {
+        this.showVanadium(false);
+    },
+
+    showVanadium: function(show) {
+        var navbar = document.getElementById('nav-bar');
+        navbar.setAttribute("collapsed", show);
+        this.toolbar.setAttribute("collapsed", !show);
+
         //XXX what does this do and is it really necessary?
         document.persist(this.toolbar.id, 'collapsed');
         document.persist(navbar.id, 'collapsed');
@@ -45,11 +57,9 @@ var Vanadium = {
         if (!this.isAppTab(this.tabbrowser.currentURI)) {
             return;
         }
-        Components.utils.reportError(query);
 
         var iframe = this.tabbrowser.contentDocument.getElementById('canvas_frame');
         var input = iframe.contentDocument.getElementById(':rd');
-        Components.utils.reportError(input);
         input.value = query;
         this.pressEnter(input);
     },
