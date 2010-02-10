@@ -58,10 +58,9 @@ var Vanadium = {
             return;
         }
 
-        var iframe = this.tabbrowser.contentDocument.getElementById('canvas_frame');
-        var input = iframe.contentDocument.getElementById(':rd');
-        input.value = query;
-        this.pressEnter(input);
+        var plugin = new GMailPlugin(this.tabbrowser.contentDocument);
+        plugin.search.value = query;
+        this.pressEnter(plugin.search);
     },
 
     onButton: function(buttontype) {
@@ -69,26 +68,11 @@ var Vanadium = {
             return;
         }
 
-        var iframe = this.tabbrowser.contentDocument.getElementById('canvas_frame');
-        var toclick;
-        switch (buttontype) {
-        case "home":
-            /* First link of that class should be 'Inbox' */
-            toclick = iframe.contentDocument.getElementsByClassName('n0');
-            toclick = toclick[0];
-            break;
-        case "compose":
-            toclick = iframe.contentDocument.getElementById(':r3');
-            break;
-        case "reply":
-            toclick = iframe.contentDocument.getElementsByClassName('hE');
-            toclick = toclick[0];
-        }
-
+        var plugin = new GMailPlugin(this.tabbrowser.contentDocument);
+        var toclick = plugin[buttontype];
         if (toclick === undefined) {
             return;
         }
-
         this.clickOn(toclick);
     },
 
@@ -123,5 +107,17 @@ var Vanadium = {
     }
 
 };
+
+function GMailPlugin(document) {
+    var iframe = document.getElementById('canvas_frame');
+
+    /* First link of that class should be 'Inbox' */
+    this.home = iframe.contentDocument.getElementsByClassName('n0')[0];
+    /* It's id=":r3" for pre-Buzz GMail (e.g. Google Apps) */
+    this.compose = iframe.contentDocument.getElementById(':r2');
+    this.reply = iframe.contentDocument.getElementsByClassName('hE')[0];
+    /* It's id="rd" for pre-Buzz GMail (e.g. Google Apps) */
+    this.search = iframe.contentDocument.getElementById(':rc');
+}
 
 window.addEventListener("DOMContentLoaded", Vanadium, false);
