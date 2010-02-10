@@ -1,6 +1,8 @@
 var Vanadium = {
 
     init: function() {
+        window.removeEventListener("DOMContentLoaded", this, false);
+
         this.tabbrowser = document.getElementById('content');
         this.tabbrowser.addEventListener('TabSelect', this, false);
 
