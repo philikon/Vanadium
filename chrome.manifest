@@ -1,0 +1,7 @@
+content   vanadium                 chrome/content/
+skin      vanadium   classic/1.0   chrome/skin/
+locale    vanadium   en-US         chrome/locale/en-US/
+
+
+overlay   chrome://browser/content/browser.xul   chrome://vanadium/content/ff-overlay.xul
+style chrome://global/content/customizeToolbar.xul chrome://vanadium/skin/overlay.css

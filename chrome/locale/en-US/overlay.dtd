@@ -1,0 +1,8 @@
+<!ENTITY vanadium.label "Your localized menuitem">
+<!ENTITY vanadiumContext.label "Your Menuitem">
+<!ENTITY vanadiumContext.accesskey "Y">
+<!ENTITY vanadiumToolbarButton.label "Your Toolbar Button">
+<!ENTITY vanadiumToolbarButton.tooltip "This is your toolbar button!">
+<!ENTITY vanadiumSidebar.label "Your Sidebar">
+<!ENTITY vanadiumToolbar.name  "example">
+<!ENTITY vanadiumToolbar.label "This is an example toolbar. You can hide it under View &gt; toolbars &gt; &vanadiumToolbar.name;">
