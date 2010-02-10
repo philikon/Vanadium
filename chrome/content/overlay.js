@@ -1,5 +1,8 @@
 var Vanadium = {
 
+    plugins: {},
+    activePlugin: null,
+
     init: function() {
         window.removeEventListener("DOMContentLoaded", this, false);
 
@@ -10,6 +13,19 @@ var Vanadium = {
         this.toolbar = document.getElementById('vanadium-toolbar');
         this.toolbar.setAttribute("collapsed", "true");
     },
+
+    /* Plugin "API" */
+
+    register: function(factory, host) {
+        this.plugins[host] = factory;
+    },
+
+    findPlugin: function(uri) {
+        /* This might return undefined, and we're perfectly fine with that. */
+        return this.plugins[uri.host];
+    },
+
+    /* Event handlers */
 
     handleEvent: function(event) {
         switch (event.type) {
@@ -24,22 +40,21 @@ var Vanadium = {
             return;
         }
     },
-
-    isAppTab: function(uri) {
-        return (uri.host == "mail.google.com"); //XXX
-    },
-
+    
     onTabSelect: function(event) {
-        var uri = event.originalTarget.linkedBrowser.currentURI;
-        //TODO: only need to do this if we're switching from non-app to app tab
-        if (this.isAppTab(uri)) {
-            this.showVanadium(true);
-        } else {
+        var factory = this.findPlugin(this.tabbrowser.currentURI);
+        if (factory == undefined) {
             this.showVanadium(false);
+            this.activePlugin = null;
+            return;
         }
+
+        this.activePlugin = new factory(this.tabbrowser.contentDocument);
+        this.showVanadium(true);
     },
 
     onTabOpen: function(event) {
+        //TODO we should really see what's being loaded and then decide
         this.showVanadium(false);
     },
 
@@ -54,22 +69,18 @@ var Vanadium = {
     },
 
     onSearch: function(query) {
-        if (!this.isAppTab(this.tabbrowser.currentURI)) {
+        if (!this.activePlugin) {
             return;
         }
-
-        var plugin = new GMailPlugin(this.tabbrowser.contentDocument);
-        plugin.search.value = query;
-        this.pressEnter(plugin.search);
+        this.activePlugin.search.value = query;
+        this.pressEnter(this.activePlugin.search);
     },
 
     onButton: function(buttontype) {
-        if (!this.isAppTab(this.tabbrowser.currentURI)) {
+        if (!this.activePlugin) {
             return;
         }
-
-        var plugin = new GMailPlugin(this.tabbrowser.contentDocument);
-        var toclick = plugin[buttontype];
+        var toclick = this.activePlugin[buttontype];
         if (toclick === undefined) {
             return;
         }
@@ -107,6 +118,8 @@ var Vanadium = {
     }
 
 };
+window.addEventListener("DOMContentLoaded", Vanadium, false);
+
 
 function GMailPlugin(document) {
     var iframe = document.getElementById('canvas_frame');
@@ -118,6 +131,7 @@ function GMailPlugin(document) {
     this.reply = iframe.contentDocument.getElementsByClassName('hE')[0];
     /* It's id="rd" for pre-Buzz GMail (e.g. Google Apps) */
     this.search = iframe.contentDocument.getElementById(':rc');
-}
 
-window.addEventListener("DOMContentLoaded", Vanadium, false);
+    Components.utils.reportError(this.reply);
+}
+Vanadium.register(GMailPlugin, "mail.google.com");
