@@ -144,7 +144,17 @@ Vanadium.register(GMailPlugin, "mail.google.com");
 function TwitterPlugin(document) {
     document = jQuery(document);
     this.home = document.find('#home_tab > a')[0];
-    this.compose = document.find('#direct_messages_tab a')[0];
+    this.compose = document.find('#direct_messages_tab > a')[0];
     this.search = document.find('#sidebar_search_q')[0];
 }
 Vanadium.register(TwitterPlugin, "twitter.com");
+
+
+function FacebookPlugin(document) {
+    document = jQuery(document);
+    this.home = document.find('#pageLogo > a')[0];
+    this.compose = document.find('#navigation_item_messages > a')[0];
+    //XXX doesn't work yet
+    this.search = document.find('#q')[0];
+}
+Vanadium.register(FacebookPlugin, "www.facebook.com");
