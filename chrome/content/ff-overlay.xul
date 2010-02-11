@@ -16,9 +16,7 @@
     <!-- Trick: empty toolbarname means it's not listed in 'View' menu -->
     <toolbar id="vanadium-toolbar"
              class="toolbar-primary chromeclass-toolbar"
-             toolbarname=""
-             mode="icons"
-             customizable="true">
+             toolbarname="">
 
       <toolbarbutton id="vanadium-button-home"
                      label="&vanadium.button.home.label;"
@@ -37,9 +35,13 @@
 
       <toolbaritem id="vanadium-searchbar-container"
                    title="&vanadium.searchbar.label;"
-                   persist="width">
+                   flex="1">
+        <!-- XXX Do we want searchbutton="true" here?  It makes the
+             (x) in the corner go away. -->
         <textbox id="vanadium-searchbar"
-                 searchbutton="true"
+                 type="search"
+                 class="compact"
+                 flex="1"
                  onchange="Vanadium.onSearch(this.value)" />
       </toolbaritem>
 
