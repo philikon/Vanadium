@@ -23,3 +23,7 @@
 #vanadium-button-compose:hover:active {
   -moz-image-region: rect(32px 64px 64px 32px);
 }
+
+#vanadium-searchbar {
+  height: 28px !important; /* XXX doesn't seem to be respected */
+}

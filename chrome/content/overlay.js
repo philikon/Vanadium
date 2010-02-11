@@ -29,7 +29,11 @@ var Vanadium = {
     },
 
     havePlugin: function() {
-        return (this.tabbrowser.currentURI.host in this.plugins);
+        var uri = this.tabbrowser.currentURI;
+        if (uri.scheme == "about") {
+            return false;
+        }
+        return (uri.host in this.plugins);
     },
 
     /* Event handlers */
